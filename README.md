@@ -1,2 +1,2 @@
 # Hidden-AI
-An ai hidden in our browser, optimal for cheating on tests. 
+A Chrome extension that conceals an AI within your browser."
