@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Hidden AI",
+    "version": "1.0",
+    "description": "In your browser a ai is hidden.",
+    "author": "Brage",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": ""
+    }
+}
+  
