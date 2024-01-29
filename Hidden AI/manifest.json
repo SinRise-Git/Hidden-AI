@@ -5,7 +5,7 @@
     "description": "In your browser a ai is hidden.",
     "author": "Brage",
     "action": {
-        "default_popup": "index.html",
+        "default_popup": "public/index.html",
         "default_title": ""
     }
 }
