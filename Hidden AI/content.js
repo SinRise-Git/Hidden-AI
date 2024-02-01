@@ -1,6 +1,6 @@
 navigator.clipboard.readText()
   .then(text => {
-    let processedData = text + " kys lol";
+    let processedData = text + "test";
     navigator.clipboard.writeText(processedData);
   })
   .catch(err => {
