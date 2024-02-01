@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/style.css">
-    <script src="./script.js" defer></script>
+    <script src="./scriptBrowser.js" defer></script>
 </head>
 <body>
     <div class="main">
@@ -21,29 +21,39 @@
                 <div class="authCheck">
                     <div id="authToken" class="authToken">
                        <div class="input">
-                            <input type="text" id="projectRegionToken" placeholder="project_region">
-                            <input type="text" id="projectIdToken" placeholder="project_id">
-                            <input type="text" id="authToken" placeholder="auth_token">
+                          <form id="authTokenForm">
+                            <p class="infoText">Project Info</p>
+                            <input type="text" id="projectRegionToken" placeholder="project_region" required>
+                            <input type="text" id="projectIdToken" placeholder="project_id" required>
+                            <p class="infoText">Authentication Info</p>
+                            <input type="text" id="authToken" placeholder="auth_token" required>
                             <div class="buttonsInput">
-                                <button class="authTokenButtonConfirm">Confirm</button>
+                                <button class="authTokenButtonSubmit" id="submitButton">Submit</button>
+                                <button type="submit" class="authTokenButtonConfirm">Check</button>
                             </div>
+                          </form>
                             <div class="warningText">
                                 <p>Warning! When you get the auth token for your main account using "gcloud print auth-access-token" it will only last for around 10 minuts before it automatically resets the token, so its better to use a service account.</p>
                             </div>
                        </div>
                     </div>
                     <div id="authService" class="authService" style="display: none;">
-                        <div class="input">
-                            <input type="text" id="projectRegionService" placeholder="project_region">
-                            <input type="text" id="projectIdService" placeholder="project_id">
-                            <input type="text" id="projectId" placeholder="project_id">
-                            <input type="text" id="privateKeyId" placeholder="private_key_id">
-                            <input type="text" id="privateKey" placeholder="private_key">
-                            <input type="text" id="clientEmail" placeholder="client_email">
-                            <input type="text" id="ClientId" placeholder="client_id">
+                          <div class="input">
+                           <form id="authServiceForm"> 
+                            <p class="infoText">Project Info</p>
+                            <input type="text" id="projectRegionService" placeholder="project_region" required>
+                            <input type="text" id="projectIdService" placeholder="project_id" required>
+                            <p class="infoText">Authentication Info</p>
+                            <input type="text" id="projectId" placeholder="project_id" required>
+                            <input type="text" id="privateKeyId" placeholder="private_key_id" required>
+                            <input type="text" id="privateKey" placeholder="private_key" required>
+                            <input type="text" id="clientEmail" placeholder="client_email" required>
+                            <input type="text" id="ClientId" placeholder="client_id" required>
                             <div class="buttonsInput">
-                                <button class="authTokenButtonConfirm">Confirm</button>
+                                <button class="authServiceButtonSubmit" id="submitButton">Submit</button>
+                                <button type="submit" class="authServiceButtonConfirm">Check</button>
                             </div>
+                          </form>
                         </div>
                     </div>
                 </div>

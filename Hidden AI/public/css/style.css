@@ -47,13 +47,14 @@ body {
 
 .warningText {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
+    align-items: center;    
+    justify-content: center; 
 }
 
 .warningText p {
     margin: 0px;
+    font-size: 12px;
+    max-width: 220px; 
 }
 
 .button {
@@ -82,4 +83,16 @@ body {
 
 .buttonsInput button {
     margin: 10px 0px 10px 0px;
+}
+
+.infoText{
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--background-color);
+    margin: 10px 0px 0px 0px;
+}
+
+#submitButton{
+    cursor: unset;
+    opacity: 50%
 }
