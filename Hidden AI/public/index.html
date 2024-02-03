@@ -19,17 +19,16 @@
                     <button id="authServiceButton" class="authServiceButton" style="color: gray;">Service Account</button>
                 </div>
                 <div class="authCheck">
-                    <div id="authToken" class="authToken">
+                    <div id="authTokenDiv" class="authToken">
                        <div class="input">
                           <form id="authTokenForm">
                             <p class="infoText">Project Info</p>
-                            <input type="text" id="projectRegionToken" placeholder="project_region" required>
                             <input type="text" id="projectIdToken" placeholder="project_id" required>
+                            <input type="text" id="projectRegionToken" placeholder="project_region" required>
                             <p class="infoText">Authentication Info</p>
                             <input type="text" id="authToken" placeholder="auth_token" required>
                             <div class="buttonsInput">
                                 <button class="authTokenButtonSubmit" id="submitButton">Submit</button>
-                                <button type="submit" class="authTokenButtonConfirm">Check</button>
                             </div>
                           </form>
                             <div class="warningText">
@@ -37,12 +36,12 @@
                             </div>
                        </div>
                     </div>
-                    <div id="authService" class="authService" style="display: none;">
+                    <div id="authServiceDiv" class="authService" style="display: none;">
                           <div class="input">
                            <form id="authServiceForm"> 
                             <p class="infoText">Project Info</p>
+                            <input type="text" id="projectIdToken" placeholder="project_id" required>
                             <input type="text" id="projectRegionService" placeholder="project_region" required>
-                            <input type="text" id="projectIdService" placeholder="project_id" required>
                             <p class="infoText">Authentication Info</p>
                             <input type="text" id="projectId" placeholder="project_id" required>
                             <input type="text" id="privateKeyId" placeholder="private_key_id" required>
@@ -51,7 +50,6 @@
                             <input type="text" id="ClientId" placeholder="client_id" required>
                             <div class="buttonsInput">
                                 <button class="authServiceButtonSubmit" id="submitButton">Submit</button>
-                                <button type="submit" class="authServiceButtonConfirm">Check</button>
                             </div>
                           </form>
                         </div>
@@ -59,8 +57,6 @@
                 </div>
                 </div>
             </div> 
-        </div>
-        <div class="home" style="display: none;">
         </div>
     </div>
 </body>

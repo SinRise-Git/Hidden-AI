@@ -91,8 +91,3 @@ body {
     color: var(--background-color);
     margin: 10px 0px 0px 0px;
 }
-
-#submitButton{
-    cursor: unset;
-    opacity: 50%
-}
