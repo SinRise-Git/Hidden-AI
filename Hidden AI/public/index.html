@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/style.css">
-    <script src="./scriptBrowser.js" defer></script>
 </head>
 <body>
     <div class="main">
@@ -23,10 +22,10 @@
                        <div class="input">
                           <form id="authTokenForm">
                             <p class="infoText">Project Info</p>
-                            <input type="text" id="projectIdToken" placeholder="project_id" required>
-                            <input type="text" id="projectRegionToken" placeholder="project_region" required>
+                            <input type="text" id="projectIdToken" placeholder="project_id">
+                            <input type="text" id="projectRegionToken" placeholder="project_region">
                             <p class="infoText">Authentication Info</p>
-                            <input type="text" id="authToken" placeholder="auth_token" required>
+                            <input type="text" id="authToken" placeholder="auth_token">
                             <div class="buttonsInput">
                                 <button class="authTokenButtonSubmit" id="submitButton">Submit</button>
                             </div>
@@ -40,14 +39,12 @@
                           <div class="input">
                            <form id="authServiceForm"> 
                             <p class="infoText">Project Info</p>
-                            <input type="text" id="projectIdToken" placeholder="project_id" required>
-                            <input type="text" id="projectRegionService" placeholder="project_region" required>
+                            <input type="text" id="projectIdService" placeholder="project_id">
+                            <input type="text" id="projectRegionService" placeholder="project_region">
                             <p class="infoText">Authentication Info</p>
-                            <input type="text" id="projectId" placeholder="project_id" required>
-                            <input type="text" id="privateKeyId" placeholder="private_key_id" required>
-                            <input type="text" id="privateKey" placeholder="private_key" required>
-                            <input type="text" id="clientEmail" placeholder="client_email" required>
-                            <input type="text" id="ClientId" placeholder="client_id" required>
+                            <input type="text" id="privateKey" placeholder="private_key">
+                            <input type="text" id="clientEmail" placeholder="client_email">
+                            <input type="text" id="clientId" placeholder="client_id">
                             <div class="buttonsInput">
                                 <button class="authServiceButtonSubmit" id="submitButton">Submit</button>
                             </div>
@@ -60,4 +57,5 @@
         </div>
     </div>
 </body>
+<script src="./scriptBrowser.js"></script>
 </html>
