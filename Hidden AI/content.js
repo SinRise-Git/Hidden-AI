@@ -44,6 +44,6 @@ navigator.clipboard.readText()
 			}
 		});
 	})
-	.catch(err => {
-		onsole.error('Failed to read clipboard contents: ', err);
-	});
+.catch(err => {
+	onsole.error('Failed to read clipboard contents: ', err);
+});
