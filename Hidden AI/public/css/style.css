@@ -5,26 +5,18 @@
     --gray-color: #BDBDBD;
 }
 
-
-
 body {
     width: 250px;
     background-color: var(--background-color);
+    text-align: center;
+    color: var(--white-color);
+    font-family: "Roboto", "Arial", sans-serif;
 }
 
 .main {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.info {
-    text-align: center;
-}
-
-.info h1, .info p {
-    color: var(--white-color);
-    font-family: "Roboto", "Arial", sans-serif;
 }
 
 .authCheck {
@@ -64,7 +56,8 @@ body {
     gap: 10px;
 }
 
-.button button, .buttonsInput button {
+.buttonsInput .authTokenButtonSubmit {
+    margin: 10px 0px 0px 0px;
     background-color: var(--dark-gray-color);
     color: var(--white-color);
     padding: 5px 10px 5px 10px;
@@ -73,6 +66,28 @@ body {
     cursor: pointer;
     font-weight: 700;
 }
+
+.buttonsInput .authServiceButtonSubmit {
+    margin: 10px 0px 5px 0px;
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
+    padding: 5px 10px 5px 10px;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.button button {
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
+    padding: 5px 10px 5px 10px;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
 .buttonsInput {
     display: flex;
     flex-direction: row;
@@ -81,13 +96,44 @@ body {
     gap: 10px;
 }
 
-.buttonsInput button {
-    margin: 10px 0px 10px 0px;
-}
-
-.infoText{
+.infoText, .typeInfo{
     font-size: 12px;
     font-weight: 900;
-    color: var(--background-color);
+    color: var(--white-color);
     margin: 10px 0px 0px 0px;
+}
+
+.typeInfo{
+    margin: 10px;
+}
+
+#responseText{
+    margin: 5px;
+}
+
+.userInput {
+    display: flex;
+    flex-direction: column;
+ 
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background: var(--dark-gray-color);
+    color: var(--white-color);
+    outline: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="range"]::webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: white; /* Use a specific color */
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+#loginType, #temperatureValue, #tokenlimitValue{
+    font-weight: 900;
 }

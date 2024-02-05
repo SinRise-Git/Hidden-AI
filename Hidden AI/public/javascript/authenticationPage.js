@@ -2,6 +2,7 @@ const authTokenButton = document.querySelector('.authTokenButton');
 const authServiceButton = document.querySelector('.authServiceButton');
 const authTokenForm = document.getElementById('authTokenForm');
 const authServiceForm = document.getElementById('authServiceForm');
+let wasClicked = false;
 authTokenForm.addEventListener('submit', function(e) {
 	e.preventDefault();
 	checkAuth('token');
@@ -20,12 +21,18 @@ if (authTokenButton && authServiceButton) {
 	});
 }
 
-
-if (localStorage.getItem('hasValidCredentials')) {
-	window.location.href = 'main.html';
-} else {
-    chrome.storage.local.remove('userCredentials')
-}
+chrome.storage.local.get(['hasValidCredentials'], function(result) {
+    if (result.hasValidCredentials) {
+        window.location.href = 'main.html';
+    } else {
+        chrome.storage.local.get(['userCredentials'], function(result) {
+            if (result.userCredentials) {
+                chrome.storage.local.remove('userCredentials')
+				chrome.storage.local.remove('credentialsType');
+            }
+        });
+    }
+});
 
 function showhide(show, hide, auth, service) {
 	let divShow = document.getElementById(show);
@@ -38,7 +45,7 @@ function showhide(show, hide, auth, service) {
 		buttonShow.style.color = "white";
 		buttonHide.style.color = "gray"
 	}
-};
+}
 
 function checkAuth(type) {
 	if (type === 'token') {
@@ -83,64 +90,84 @@ document.getElementById('authServiceForm').addEventListener('input', function() 
 		clientId: clientIdValue,
 	}));
 });
+if (localStorage.getItem('tokenCredentialValue')) {
+	let credentialValueToken = JSON.parse(localStorage.getItem('tokenCredentialValue'));
+	Object.entries(credentialValueToken).forEach(([key, value]) => {
+		document.getElementById(key).value = value
+	});
+}
 
-let credentialValueToken = JSON.parse(localStorage.getItem('tokenCredentialValue'));
-Object.entries(credentialValueToken).forEach(([key, value]) => {
-	document.getElementById(key).value = value
-});
-
-let credentialValueService = JSON.parse(localStorage.getItem('serviceCredentialValue'));
-Object.entries(credentialValueService).forEach(([key, value]) => {
-	document.getElementById(key).value = value
-});
+if (localStorage.getItem('serviceCredentialValue')) {
+	let credentialValueService = JSON.parse(localStorage.getItem('serviceCredentialValue'));
+	Object.entries(credentialValueService).forEach(([key, value]) => {
+		document.getElementById(key).value = value
+	});
+}
 
 async function validateAuth(projectIdToken, projectRegionToken, authToken) {
-	const apiUrl = `https://${projectRegionToken}-aiplatform.googleapis.com/v1/projects/${projectIdToken}/locations/${projectRegionToken}/publishers/google/models/chat-bison:predict`;
-	const requestData = {
-		instances: [{
-			messages: [{
-				author: "user",
-				content: "Hello this is a test message"
+	if (wasClicked === false) {
+		wasClicked = true;
+		dotCount = 0;
+		let responseText = document.getElementById("responseText")
+		responseText.style.color = "white";
+		responseText.textContent = "Validating your credentials";
+		let loadingCredentials = setInterval(() => {
+			dotCount += 1;
+			if (dotCount > 3) {dotCount = 0;}
+			let dots = '.'.repeat(dotCount);
+			responseText.textContent = "Validating your credentials" + dots;
+		}, 250)
+		const apiUrl = `https://${projectRegionToken}-aiplatform.googleapis.com/v1/projects/${projectIdToken}/locations/${projectRegionToken}/publishers/google/models/chat-bison:predict`;
+		const requestData = {
+			instances: [{
+				messages: [{
+					author: "user",
+					content: "Hello this is a test message"
+				}, ],
 			}, ],
-		}, ],
-		parameters: {
-			temperature: 0.3,
-			maxOutputTokens: 200,
-			topP: 0.8,
-			topK: 40,
-		},
-	};
+			parameters: {
+				temperature: 0.3,
+				maxOutputTokens: 200,
+				topP: 0.8,
+				topK: 40,
+			},
+		};
 
-	const headers = {
-		Authorization: `Bearer ${authToken}`,
-		'Content-Type': 'application/json',
-	};
+		const headers = {
+			Authorization: `Bearer ${authToken}`,
+			'Content-Type': 'application/json',
+		};
 
-	try {
-		const response = await fetch(apiUrl, {
-			method: 'POST',
-			headers: headers,
-			body: JSON.stringify(requestData),
-		});
-
-		if (response.ok) {
-			console.log('Some information is not correct!');
-		}
-
-		if (response.status === 200) {
-			localStorage.setItem('hasValidCredentials', 'true');
-			let data = {
-				projectRegionToken: projectRegionToken,
-				projectIdToken: projectIdToken,
-				authToken: authToken
-			};
-
-			chrome.storage.local.set({
-				userCredentials: data
+		try {
+			const response = await fetch(apiUrl, {
+				method: 'POST',
+				headers: headers,
+				body: JSON.stringify(requestData),
 			});
-			window.location.href = 'main.html';
+
+			if (response.status === 200) {
+				chrome.storage.local.set({hasValidCredentials: 'true'})
+				chrome.storage.local.set({credentialsType: 'token'})
+				let data = {
+					projectRegionToken: projectRegionToken,
+					projectIdToken: projectIdToken,
+					authToken: authToken
+				};
+
+				chrome.storage.local.set({
+					userCredentials: data
+				})
+				window.location.href = 'main.html';
+			} else {
+				let responseText = document.getElementById("responseText")
+				clearInterval(loadingCredentials);
+				responseText.textContent = "Your credentials are not valid!";
+				responseText.style.color = "red";
+				wasClicked = false;
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	} catch (error) {
-		console.error(error);
-	}
+	};
 };
+
