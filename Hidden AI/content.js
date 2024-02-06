@@ -1,16 +1,19 @@
 navigator.clipboard.readText()
 	.then(text => {
 		navigator.clipboard.writeText("");
-		chrome.storage.local.get(['userCredentials', 'temperatureValue', 'tokenLimit' ], async function(result) {
+		chrome.storage.local.get(['userCredentials', 'temperatureValue', 'tokenLimit', 'context' ], async function(result) {
 			if (result.userCredentials) {
 				let userProjectRegion = result.userCredentials.projectRegionToken;
 				let userProjectId = result.userCredentials.projectIdToken;
 				let userAuthToken = result.userCredentials.authToken;
 				let usertemperatureValue = result.temperatureValue;
 				let userTokenLimit = result.tokenLimit;
+				let userContext = result.context;
+				console.log(userContext)
 				const apiUrl = `https://${userProjectRegion}-aiplatform.googleapis.com/v1/projects/${userProjectId}/locations/${userProjectRegion}/publishers/google/models/chat-bison:predict`;
 				const requestData = {
 					instances: [{
+						context: userContext,
 						messages: [{
 							author: "user",
 							content: text

@@ -35,7 +35,7 @@ chrome.storage.local.get(['temperatureValue', 'tokenLimit', 'context'], function
 })
 
 document.getElementById('temperatureSlide').addEventListener('input', function()	{
-	chrome.storage.local.set({temperatureValue: this.value})	
+	chrome.storage.local.set({temperatureValue: Number(this.value)})	
 	chrome.storage.local.get(['temperatureValue'], function(result) {
 		document.getElementById('temperatureValue').textContent = result.temperatureValue
 		document.getElementById('temperatureSlide').value = result.temperatureValue
@@ -43,7 +43,7 @@ document.getElementById('temperatureSlide').addEventListener('input', function()
 })
 
 document.getElementById('tokenlimitSlide').addEventListener('input', function()	{
-    chrome.storage.local.set({tokenLimit: this.value})	
+    chrome.storage.local.set({tokenLimit: Number(this.value)})	
 	chrome.storage.local.get(['tokenLimit'], function(result) {
 		document.getElementById('tokenlimitValue').textContent = result.tokenLimit
 		document.getElementById('tokenlimitSlide').value = result.tokenLimit
