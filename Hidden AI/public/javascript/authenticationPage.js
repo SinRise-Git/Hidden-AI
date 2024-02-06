@@ -24,13 +24,8 @@ if (authTokenButton && authServiceButton) {
 chrome.storage.local.get(['hasValidCredentials'], function(result) {
     if (result.hasValidCredentials) {
         window.location.href = 'main.html';
-    } else {
-        chrome.storage.local.get(['userCredentials'], function(result) {
-            if (result.userCredentials) {
-                chrome.storage.local.remove('userCredentials')
-				chrome.storage.local.remove('credentialsType');
-            }
-        });
+    } else { 
+        chrome.storage.local.clear()
     }
 });
 
@@ -109,7 +104,7 @@ async function validateAuth(projectIdToken, projectRegionToken, authToken) {
 		wasClicked = true;
 		dotCount = 0;
 		let responseText = document.getElementById("responseText")
-		responseText.style.color = "white";
+		responseText.style.color = "green";
 		responseText.textContent = "Validating your credentials";
 		let loadingCredentials = setInterval(() => {
 			dotCount += 1;

@@ -1,10 +1,13 @@
 navigator.clipboard.readText()
 	.then(text => {
-		chrome.storage.local.get(['userCredentials'], async function(result) {
+		navigator.clipboard.writeText("");
+		chrome.storage.local.get(['userCredentials', 'temperatureValue', 'tokenLimit' ], async function(result) {
 			if (result.userCredentials) {
 				let userProjectRegion = result.userCredentials.projectRegionToken;
 				let userProjectId = result.userCredentials.projectIdToken;
 				let userAuthToken = result.userCredentials.authToken;
+				let usertemperatureValue = result.temperatureValue;
+				let userTokenLimit = result.tokenLimit;
 				const apiUrl = `https://${userProjectRegion}-aiplatform.googleapis.com/v1/projects/${userProjectId}/locations/${userProjectRegion}/publishers/google/models/chat-bison:predict`;
 				const requestData = {
 					instances: [{
@@ -14,8 +17,8 @@ navigator.clipboard.readText()
 						}, ],
 					}, ],
 					parameters: {
-						temperature: 0.3,
-						maxOutputTokens: 200,
+						temperature: usertemperatureValue,
+						maxOutputTokens: userTokenLimit,
 						topP: 0.8,
 						topK: 40,
 					},
@@ -33,7 +36,8 @@ navigator.clipboard.readText()
 					});
 					const data = await response.json();
 					if (!response.ok) {
-						console.log('Auth token time has run out!');
+						chrome.runtime.sendMessage({authTokenExpired: true});
+						console.log('Auth token time has run out! Please login again!');
 					}
 					if (response.status === 200) {
 						navigator.clipboard.writeText(data.predictions[0].candidates[0].content);
