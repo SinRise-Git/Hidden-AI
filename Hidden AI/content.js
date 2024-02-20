@@ -9,7 +9,6 @@ navigator.clipboard.readText()
 				let usertemperatureValue = result.temperatureValue;
 				let userTokenLimit = result.tokenLimit;
 				let userContext = result.context;
-				console.log(userContext)
 				const apiUrl = `https://${userProjectRegion}-aiplatform.googleapis.com/v1/projects/${userProjectId}/locations/${userProjectRegion}/publishers/google/models/chat-bison:predict`;
 				const requestData = {
 					instances: [{

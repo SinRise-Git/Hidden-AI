@@ -7,7 +7,7 @@ chrome.storage.local.get(['credentialsType'], function(result) {
 	}
 })
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(message) {
     if (message.authTokenExpired) {
 		chrome.storage.local.clear()
         window.location.href = 'index.html'

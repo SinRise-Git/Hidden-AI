@@ -7,10 +7,12 @@ authTokenForm.addEventListener('submit', function(e) {
 	e.preventDefault();
 	checkAuth('token');
 });
-authServiceForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	checkAuth('service');
-});
+
+//authServiceForm.addEventListener('submit', function(e) {
+//	e.preventDefault();
+//	checkAuth('service');
+//});
+
 if (authTokenButton && authServiceButton) {
 	authTokenButton.addEventListener('click', function() {
 		showhide('authTokenDiv', 'authServiceDiv', 'authTokenButton', 'authServiceButton');
@@ -42,22 +44,22 @@ function showhide(show, hide, auth, service) {
 	}
 }
 
-function checkAuth(type) {
-	if (type === 'token') {
+function checkAuth(authType) {
+	if (authType === 'token') {
 		const authTokenForm = document.getElementById('authTokenForm');
 		let projectIdToken = authTokenForm.projectIdToken.value
 		let projectRegionToken = authTokenForm.projectRegionToken.value
 		let authToken = authTokenForm.authToken.value
-		validateAuth(projectIdToken, projectRegionToken, authToken);
-	} else if (type === 'service') {
-		const authServiceForm = document.getElementById('authServiceForm');
-		let projectIdService = authServiceForm.projectIdService.value
-		let projectRegionService = authServiceForm.projectRegionService.value
-		let privateKey = authServiceForm.privateKey.value
-		let clientEmail = authServiceForm.clientEmail.value
-		let clientId = authServiceForm.clientId.value
-		genorateAuthToken(projectIdService, projectRegionService, privateKey, clientEmail, clientId);
-	}
+		validateAuth(projectIdToken, projectRegionToken, authToken, authType);
+	} //else if (authType === 'service') {
+		//const authServiceForm = document.getElementById('authServiceForm');
+		//let projectIdService = authServiceForm.projectIdService.value
+		//let projectRegionService = authServiceForm.projectRegionService.value
+		//let privateKey = authServiceForm.privateKey.value
+		//let clientEmail = authServiceForm.clientEmail.value
+		//let clientId = authServiceForm.clientId.value
+		//genorateAuthToken(projectIdService, projectRegionService, privateKey, clientEmail, clientId);
+	//}
 };
 
 document.getElementById('authTokenForm').addEventListener('input', function() {
@@ -71,35 +73,42 @@ document.getElementById('authTokenForm').addEventListener('input', function() {
 	}));
 });
 
-document.getElementById('authServiceForm').addEventListener('input', function() {
-	let projectIdSerivceValue = document.getElementById('projectIdService').value
-	let projectRegionSerivceValue = document.getElementById('projectRegionService').value
-	let privateKeyValue = document.getElementById('privateKey').value
-	let clientEmailValue = document.getElementById('clientEmail').value
-	let clientIdValue = document.getElementById('clientId').value
-	localStorage.setItem('serviceCredentialValue', JSON.stringify({
-		projectIdService: projectIdSerivceValue,
-		projectRegionService: projectRegionSerivceValue,
-		privateKey: privateKeyValue,
-		clientEmail: clientEmailValue,
-		clientId: clientIdValue,
-	}));
-});
+//document.getElementById('authServiceForm').addEventListener('input', function() {
+	//let projectIdSerivceValue = document.getElementById('projectIdService').value
+	//let projectRegionSerivceValue = document.getElementById('projectRegionService').value
+	//let privateKeyValue = document.getElementById('privateKey').value
+	//let clientEmailValue = document.getElementById('clientEmail').value
+	//localStorage.setItem('serviceCredentialValue', JSON.stringify({
+		//projectIdService: projectIdSerivceValue,
+		//projectRegionService: projectRegionSerivceValue,
+		//privateKey: privateKeyValue,
+		//clientEmail: clientEmailValue,
+	//}));
+//});
+
 if (localStorage.getItem('tokenCredentialValue')) {
-	let credentialValueToken = JSON.parse(localStorage.getItem('tokenCredentialValue'));
-	Object.entries(credentialValueToken).forEach(([key, value]) => {
-		document.getElementById(key).value = value
-	});
+	chrome.storage.local.get(['hasValidCredentials'], function(result) {
+		if (result.hasValidCredentials === undefined) {
+			let credentialValueToken = JSON.parse(localStorage.getItem('tokenCredentialValue'));
+			Object.entries(credentialValueToken).forEach(([key, value]) => {
+				document.getElementById(key).value = value
+			});
+		}
+	})
 }
 
-if (localStorage.getItem('serviceCredentialValue')) {
-	let credentialValueService = JSON.parse(localStorage.getItem('serviceCredentialValue'));
-	Object.entries(credentialValueService).forEach(([key, value]) => {
-		document.getElementById(key).value = value
-	});
-}
+//if (localStorage.getItem('serviceCredentialValue')) {
+	//chrome.storage.local.get(['hasValidCredentials'], function(result) {
+		//if (result.hasValidCredentials === undefined) {
+			//let credentialValueService = JSON.parse(localStorage.getItem('serviceCredentialValue'));
+			//Object.entries(credentialValueService).forEach(([key, value]) => {
+				//document.getElementById(key).value = value
+			//})
+		//}
+	//})
+//}
 
-async function validateAuth(projectIdToken, projectRegionToken, authToken) {
+async function validateAuth(projectIdToken, projectRegionToken, authToken, authType) {
 	if (wasClicked === false) {
 		wasClicked = true;
 		dotCount = 0;
@@ -117,7 +126,7 @@ async function validateAuth(projectIdToken, projectRegionToken, authToken) {
 			instances: [{
 				messages: [{
 					author: "user",
-					content: "Hello this is a test message"
+					content: "Test message to validate credentials!"
 				}, ],
 			}, ],
 			parameters: {
@@ -141,20 +150,17 @@ async function validateAuth(projectIdToken, projectRegionToken, authToken) {
 			});
 
 			if (response.status === 200) {
-				chrome.storage.local.set({hasValidCredentials: 'true'})
-				chrome.storage.local.set({credentialsType: 'token'})
-				let data = {
-					projectRegionToken: projectRegionToken,
-					projectIdToken: projectIdToken,
-					authToken: authToken
-				};
-
 				chrome.storage.local.set({
-					userCredentials: data
+					hasValidCredentials: 'true',
+					credentialsType: authType,
+					userCredentials: {
+						projectRegionToken: projectRegionToken,
+					    projectIdToken: projectIdToken,
+					    authToken: authToken
+					}
 				})
 				window.location.href = 'main.html';
 			} else {
-				let responseText = document.getElementById("responseText")
 				clearInterval(loadingCredentials);
 				responseText.textContent = "Your credentials are not valid!";
 				responseText.style.color = "red";
