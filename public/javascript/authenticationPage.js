@@ -34,7 +34,6 @@ Object.entries(credentialsValues).forEach(([key, value]) => {
 	Object.entries(value).forEach(([key, value]) => {
 		document.getElementById(key).value = value
 	})
-
 })
 
 document.addEventListener('input', function(e) {
