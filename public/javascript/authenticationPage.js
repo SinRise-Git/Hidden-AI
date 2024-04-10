@@ -56,25 +56,6 @@ document.getElementById("authGeminiForm").addEventListener("submit", function() 
 	let authGeminiForm = document.getElementById("authGeminiForm");
 })
 
-function checkAuth(authType) {
-	if (authType === 'token') {
-		const authTokenForm = document.getElementById('authTokenForm');
-		let projectIdToken = authTokenForm.projectIdToken.value
-		let projectRegionToken = authTokenForm.projectRegionToken.value
-		let authToken = authTokenForm.authToken.value
-		validateAuth(projectIdToken, projectRegionToken, authToken, authType);
-	} //else if (authType === 'service') {
-		//const authServiceForm = document.getElementById('authServiceForm');
-		//let projectIdService = authServiceForm.projectIdService.value
-		//let projectRegionService = authServiceForm.projectRegionService.value
-		//let privateKey = authServiceForm.privateKey.value
-		//let clientEmail = authServiceForm.clientEmail.value
-		//let clientId = authServiceForm.clientId.value
-		//genorateAuthToken(projectIdService, projectRegionService, privateKey, clientEmail, clientId);
-	//}
-};
-
-
 async function validateAuth(projectIdToken, projectRegionToken, authToken, authType) {
 	if (wasClicked === false) {
 		wasClicked = true;
