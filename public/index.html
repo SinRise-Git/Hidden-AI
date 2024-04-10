@@ -11,24 +11,30 @@
       <div>
         <div class="top-text">
           <h1>Hidden AI</h1>
-          <p class="typeInfo">Authentication Type</p>
         </div>
         <div>
-          <div class="button">
-            <button id="authTokenButton" class="authTokenButton">Bearer Token</button>
-            <button id="authServiceButton" class="authServiceButton" style="color: gray;">Service Account</button>
+          <div class="selectAuth">
+            <select id="selectAuthOption">
+              <option value="authTokenDiv">Bearer Token</option>
+              <option value="authServiceDiv">Service Account</option>
+              <option value="authGeminiDiv">Gemeni API Key</option>
+            </select>
           </div>
           <div class="authCheck">
             <div id="authTokenDiv" class="authToken">
               <div class="input">
                 <form id="authTokenForm">
-                  <p class="infoText">Project Information</p>
-                  <input type="text" id="projectIdToken" placeholder="project_id">
-                  <input type="text" id="projectRegionToken" placeholder="location_id">
-                  <p class="infoText">Authentication Information </p>
-                  <input type="text" id="authToken" placeholder="bearer_token">
-                  <div class="buttonsInput">
-                    <button class="authTokenButtonSubmit" id="submitButton">Submit</button>
+                  <div class="projectInfo">
+                    <p class="infoText">Project Information</p>
+                    <input type="text" id="projectIdToken" placeholder="project_id">
+                    <input type="text" id="projectRegionToken" placeholder="location_id">
+                  </div>
+                  <div class="authInfo">
+                    <p class="infoText">Authentication Information </p>
+                    <input type="text" id="authToken" placeholder="bearer_token">
+                  </div>
+                  <div class="buttonInputDiv">
+                    <button type="submit">Submit</button>
                   </div>
                 </form>
                 <p id="responseText"></p>
@@ -37,24 +43,43 @@
                 </div>
               </div>
             </div>
-            <div id="authServiceDiv" class="authService" style="display: none;">
-              <div class="progress">
-                <p>Service account authentication in the works.</p>
-                <p>https://github.com/SinRise-Git/Hidden-AI </p>
-                <p></p>
-              </div>
-              <div class="input" style="display: none;">
+            <div id="authServiceDiv" class="authService">
+              <div class="input">
                 <form id="authServiceForm">
-                  <p class="infoText">Project Information </p>
-                  <input type="text" id="projectIdService" placeholder="project_id">
-                  <input type="text" id="projectRegionService" placeholder="location_id">
-                  <p class="infoText">Authentication Information </p>
-                  <input type="text" id="privateKey" placeholder="private_key">
-                  <input type="text" id="clientEmail" placeholder="client_email">
-                  <div class="buttonsInput">
-                    <button class="authServiceButtonSubmit" id="submitButton">Submit</button>
+                  <div class="projectInfo">
+                    <p class="infoText">Project Information</p>
+                    <input type="text" id="projectIdService" placeholder="project_id">
+                    <input type="text" id="projectRegionService" name="authServiceForm" placeholder="location_id">
+                    <p class="infoText">Authentication Information </p>
+                  </div>
+                  <div class="authInfo">
+                    <input type="text" id="clientEmail" placeholder="client_email">
+                    <input type="text" id="privateKey" placeholder="private_key">
+                  </div>
+                  <div class="buttonInputDiv">
+                    <button type="submit">Submit</button>
                   </div>
                 </form>
+                <p id="responseText"></p>
+              </div>
+            </div>
+            <div id="authGeminiDiv" class="authGemini">
+              <div class="input">
+                <form id="authGeminiForm">
+                  <div class="projectInfo">
+                    <p class="infoText">Project Information</p>
+                    <input type="text" id="projectIdGemini" placeholder="project_id">
+                    <input type="text" id="projectRegionGemini" placeholder="location_id">
+                  </div>
+                  <div class="authInfo">
+                    <p class="infoText">Authentication Information </p>
+                    <input type="text" id="studioKey" placeholder="studio_key">
+                  </div>
+                  <div class="buttonInputDiv">
+                    <button type="submit">Submit</button>
+                  </div>
+                </form>
+                <p id="responseText"></p>
               </div>
             </div>
           </div>

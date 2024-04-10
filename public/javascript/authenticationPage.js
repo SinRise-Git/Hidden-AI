@@ -1,28 +1,3 @@
-const authTokenButton = document.querySelector('.authTokenButton');
-const authServiceButton = document.querySelector('.authServiceButton');
-const authTokenForm = document.getElementById('authTokenForm');
-const authServiceForm = document.getElementById('authServiceForm');
-let wasClicked = false;
-authTokenForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	checkAuth('token');
-});
-
-//authServiceForm.addEventListener('submit', function(e) {
-//	e.preventDefault();
-//	checkAuth('service');
-//});
-
-if (authTokenButton && authServiceButton) {
-	authTokenButton.addEventListener('click', function() {
-		showhide('authTokenDiv', 'authServiceDiv', 'authTokenButton', 'authServiceButton');
-	});
-
-	authServiceButton.addEventListener('click', function() {
-		showhide('authServiceDiv', 'authTokenDiv', 'authServiceButton', 'authTokenButton');
-	});
-}
-
 chrome.storage.local.get(['hasValidCredentials'], function(result) {
     if (result.hasValidCredentials) {
         window.location.href = 'main.html';
@@ -31,18 +6,56 @@ chrome.storage.local.get(['hasValidCredentials'], function(result) {
     }
 });
 
-function showhide(show, hide, auth, service) {
-	let divShow = document.getElementById(show);
-	let divHide = document.getElementById(hide);
-	let buttonShow = document.getElementById(auth);
-	let buttonHide = document.getElementById(service);
-	if (divShow && divHide) {
-		divShow.style.display = "block";
-		divHide.style.display = "none";
-		buttonShow.style.color = "white";
-		buttonHide.style.color = "gray"
-	}
+
+if(!localStorage.getItem("selectedOption")) {
+	localStorage.setItem("selectedOption", "authTokenDiv");
+	document.getElementById("authTokenDiv").style.display = "block";
+} else {
+	selectedOption = localStorage.getItem("selectedOption")
+	document.getElementById("selectAuthOption").value = selectedOption;
+	document.getElementById(selectedOption).style.display = "block";
 }
+
+document.getElementById("selectAuthOption").addEventListener("change", function(e) {
+	selectedOption = localStorage.getItem("selectedOption")
+	document.getElementById(selectedOption).style.display = "none";
+    localStorage.setItem("selectedOption", e.target.value)
+	document.getElementById(e.target.value).style.display = "block";
+})
+
+if(!localStorage.getItem("credentialsValues")) {
+	localStorage.setItem("credentialsValues" , JSON.stringify({
+		authTokenForm:{}, authServiceForm: {}, authGeminiForm: {}
+	}))
+}
+
+let credentialsValues = JSON.parse(localStorage.getItem("credentialsValues"))
+Object.entries(credentialsValues).forEach(([key, value]) => {
+	Object.entries(value).forEach(([key, value]) => {
+		document.getElementById(key).value = value
+	})
+
+})
+
+document.addEventListener('input', function(e) {
+	if(e.target.form){
+		let storageValues = JSON.parse(localStorage.getItem('credentialsValues'));
+		console.log(storageValues[e.target.form.id][e.target.id] = e.target.value)
+		localStorage.setItem('credentialsValues', JSON.stringify(storageValues));
+	}
+})
+	
+document.getElementById("authServiceForm").addEventListener("submit", function() {
+	let authServiceForm = document.getElementById("authServiceForm");
+})
+
+document.getElementById("authServiceForm").addEventListener("submit", function() {
+	let authServiceForm = document.getElementById("authServiceForm");
+})
+
+document.getElementById("authGeminiForm").addEventListener("submit", function() {
+	let authGeminiForm = document.getElementById("authGeminiForm");
+})
 
 function checkAuth(authType) {
 	if (authType === 'token') {
@@ -62,51 +75,6 @@ function checkAuth(authType) {
 	//}
 };
 
-document.getElementById('authTokenForm').addEventListener('input', function() {
-	let projectIdTokenValue = document.getElementById('projectIdToken').value
-	let projectRegionIdValue = document.getElementById('projectRegionToken').value
-	let authTokenValue = document.getElementById('authToken').value
-	localStorage.setItem('tokenCredentialValue', JSON.stringify({
-		projectIdToken: projectIdTokenValue,
-		projectRegionToken: projectRegionIdValue,
-		authToken: authTokenValue,
-	}));
-});
-
-//document.getElementById('authServiceForm').addEventListener('input', function() {
-	//let projectIdSerivceValue = document.getElementById('projectIdService').value
-	//let projectRegionSerivceValue = document.getElementById('projectRegionService').value
-	//let privateKeyValue = document.getElementById('privateKey').value
-	//let clientEmailValue = document.getElementById('clientEmail').value
-	//localStorage.setItem('serviceCredentialValue', JSON.stringify({
-		//projectIdService: projectIdSerivceValue,
-		//projectRegionService: projectRegionSerivceValue,
-		//privateKey: privateKeyValue,
-		//clientEmail: clientEmailValue,
-	//}));
-//});
-
-if (localStorage.getItem('tokenCredentialValue')) {
-	chrome.storage.local.get(['hasValidCredentials'], function(result) {
-		if (result.hasValidCredentials === undefined) {
-			let credentialValueToken = JSON.parse(localStorage.getItem('tokenCredentialValue'));
-			Object.entries(credentialValueToken).forEach(([key, value]) => {
-				document.getElementById(key).value = value
-			});
-		}
-	})
-}
-
-//if (localStorage.getItem('serviceCredentialValue')) {
-	//chrome.storage.local.get(['hasValidCredentials'], function(result) {
-		//if (result.hasValidCredentials === undefined) {
-			//let credentialValueService = JSON.parse(localStorage.getItem('serviceCredentialValue'));
-			//Object.entries(credentialValueService).forEach(([key, value]) => {
-				//document.getElementById(key).value = value
-			//})
-		//}
-	//})
-//}
 
 async function validateAuth(projectIdToken, projectRegionToken, authToken, authType) {
 	if (wasClicked === false) {

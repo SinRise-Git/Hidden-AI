@@ -20,22 +20,46 @@ body {
     justify-content: center;
 }
 
-.authCheck {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 30px;
+.authToken, .authService, .authGemini{
+    display: none;
 }
 
-.authToken input, .authService input {
-    width: 220px;
+.selectAuth {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.selectAuth select {
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
     padding: 5px 10px 5px 10px;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.authCheck input{
+    width: 200px;
+    padding: 6px 10px 6px 10px;
     background-color: var(--dark-gray-color);
     margin-top: 10px;
     border: 0px;
     border-radius: 5px;
     color: white;;
+}
+
+.authCheck button{
+    margin: 10px 0px 5px 0px;
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
+    padding: 4px 10px 4px 10px;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+
 }
 
 .warningText {
@@ -47,65 +71,14 @@ body {
 .warningText p {
     margin: 0px;
     font-size: 12px;
-    max-width: 220px; 
+    max-width: 200px; 
 }
 
-.button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-}
-
-.buttonsInput .authTokenButtonSubmit {
-    margin: 10px 0px 0px 0px;
-    background-color: var(--dark-gray-color);
-    color: var(--white-color);
-    padding: 5px 10px 5px 10px;
-    border: 0px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.buttonsInput .authServiceButtonSubmit {
-    margin: 10px 0px 5px 0px;
-    background-color: var(--dark-gray-color);
-    color: var(--white-color);
-    padding: 5px 10px 5px 10px;
-    border: 0px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.button button {
-    background-color: var(--dark-gray-color);
-    color: var(--white-color);
-    padding: 5px 10px 5px 10px;
-    border: 0px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.buttonsInput {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.infoText, .typeInfo{
-    font-size: 12px;
+.infoText{
+    font-size: 13px;
     font-weight: 900;
     color: var(--white-color);
     margin: 10px 0px 0px 0px;
-}
-
-.typeInfo{
-    margin: 10px;
 }
 
 #responseText{
