@@ -43,18 +43,43 @@ document.addEventListener('input', function(e) {
 		localStorage.setItem('credentialsValues', JSON.stringify(storageValues));
 	}
 })
+
+document.addEventListener("submit", async function(e) {
+	e.preventDefault();
+	const currentForm = document.getElementById(e.target.id)
+	let checkType = "";
+	let requestBody = {
+		requestVersion: "checkCredentials"
+	};
+	if(e.target.id === "authTokenForm") {
+		checkType = "authToken";
+		requestBody.projectId = currentForm.projectIdToken.value;
+		requestBody.projectRegion = currentForm.projectRegionToken.value;
+		requestBody.authToken = currentForm.authToken.value;
+	} else if(e.target.id === "authServiceForm") {
+		checkType = "authService";
+		requestBody.projectId = currentForm.projectIdToken.value;
+		requestBody.projectRegion = currentForm.projectRegionToken.value;
+		requestBody.clientEmail = currentForm.clientEmail.value;
+		requestBody.privateKey = currentForm.privateKey.value;
+	} else if(e.target.id === "authGeminiForm") {
+		checkType = "authGemini";
+		requestBody.projectId = currentForm.projectIdToken.value;
+		requestBody.projectRegion = currentForm.projectRegionToken.value;
+		requestBody.studioKey = currentForm.studioKey.value;
+	}
+	const requestOption = {
+		method : "POST",
+		headers: {"Content-Type": "application/json"},
+		body: JSON.stringify(requestBody),
+	}
+	console.log(requestBody)
+	console.log(checkType);
+	const response = await fetch(`http://localhost:3000/checkCredentials${checkType}`, requestOption)
+	const data = await response.json()
+})
 	
-document.getElementById("authServiceForm").addEventListener("submit", function() {
-	let authServiceForm = document.getElementById("authServiceForm");
-})
 
-document.getElementById("authServiceForm").addEventListener("submit", function() {
-	let authServiceForm = document.getElementById("authServiceForm");
-})
-
-document.getElementById("authGeminiForm").addEventListener("submit", function() {
-	let authGeminiForm = document.getElementById("authGeminiForm");
-})
 
 async function validateAuth(projectIdToken, projectRegionToken, authToken, authType) {
 	if (wasClicked === false) {

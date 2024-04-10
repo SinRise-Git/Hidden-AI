@@ -3,15 +3,9 @@
   "name": "Hidden AI",
   "version": "1.0",
   "description": "In your browser a ai is hidden.",
-  "permissions": ["clipboardRead", "clipboardWrite", "activeTab", "tabs", "scripting", "storage"],
+  "permissions": ["clipboardRead", "clipboardWrite", "activeTab", "tabs", "scripting", "storage", "http://localhost:3000"],
   "background": {
     "service_worker": "background.js"
-  },
-  "oauth2": {
-    "client_id": "117484705555491212478",
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-    ]
   },
   "action": {
       "default_popup": "public/index.html",
