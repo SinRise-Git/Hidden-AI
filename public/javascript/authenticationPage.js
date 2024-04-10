@@ -39,7 +39,7 @@ Object.entries(credentialsValues).forEach(([key, value]) => {
 document.addEventListener('input', function(e) {
 	if(e.target.form){
 		let storageValues = JSON.parse(localStorage.getItem('credentialsValues'));
-		console.log(storageValues[e.target.form.id][e.target.id] = e.target.value)
+		storageValues[e.target.form.id][e.target.id] = e.target.value
 		localStorage.setItem('credentialsValues', JSON.stringify(storageValues));
 	}
 })
