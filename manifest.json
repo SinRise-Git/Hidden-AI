@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Hidden AI",
+  "version": "1.0",
+  "description": "In your browser a ai is hidden.",
+  "permissions": ["clipboardRead", "clipboardWrite", "activeTab", "tabs", "scripting", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "117484705555491212478",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  },
+  "action": {
+      "default_popup": "public/index.html",
+      "default_title": "Settings"
+  },
+  "content_scripts": [{
+     "matches": ["<all_urls>"],
+      "js": ["content.js"]
+  }],
+  "author": "Brage",
+  "commands": {
+      "Clipboard Processor": {
+        "suggested_key": {
+          "default": "Ctrl+B"
+        },
+        "description": "Clipboard Processor"
+      }
+  }
+}

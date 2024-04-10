@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="main">
+        <div>
+            <div class="top-text">
+                <h1>Hidden AI</h1>
+            </div>
+            <div class="userInput">
+                <p>Authentication: <span id="loginType"></span></p>
+                <label for="temperatureSlide">Temperature: <span id="temperatureValue">0.9</span></label>
+                <input type="range" id="temperatureSlide" min="0.1" max="1" step="0.1" value="0.9" on>
+                <label for="tokenlimitSlide">Token limit: <span id="tokenlimitValue">1024</span></label>
+                <input type="range" id="tokenlimitSlide" min="1" max="2048" step="1" value="1024" on>
+                <label for="contextText">Context</label>
+                <textarea id="contextText" placeholder="Your context..." rows="4"></textarea>
+                <button id="resetButton">Reset to default</button>
+                <button id="logoutButton">Logout</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./javascript/settingPage.js"></script>
+</html>

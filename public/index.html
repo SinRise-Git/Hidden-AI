@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+  </head>
+  <body>
+    <div class="main">
+      <div>
+        <div class="top-text">
+          <h1>Hidden AI</h1>
+          <p class="typeInfo">Authentication Type</p>
+        </div>
+        <div>
+          <div class="button">
+            <button id="authTokenButton" class="authTokenButton">Bearer Token</button>
+            <button id="authServiceButton" class="authServiceButton" style="color: gray;">Service Account</button>
+          </div>
+          <div class="authCheck">
+            <div id="authTokenDiv" class="authToken">
+              <div class="input">
+                <form id="authTokenForm">
+                  <p class="infoText">Project Information</p>
+                  <input type="text" id="projectIdToken" placeholder="project_id">
+                  <input type="text" id="projectRegionToken" placeholder="location_id">
+                  <p class="infoText">Authentication Information </p>
+                  <input type="text" id="authToken" placeholder="bearer_token">
+                  <div class="buttonsInput">
+                    <button class="authTokenButtonSubmit" id="submitButton">Submit</button>
+                  </div>
+                </form>
+                <p id="responseText"></p>
+                <div class="warningText">
+                  <p>Warning! When you get the auth token for your main account using "gcloud print auth-access-token" it will only last for around 10 minuts before it automatically resets the token, so its better to use a service account.</p>
+                </div>
+              </div>
+            </div>
+            <div id="authServiceDiv" class="authService" style="display: none;">
+              <div class="progress">
+                <p>Service account authentication in the works.</p>
+                <p>https://github.com/SinRise-Git/Hidden-AI </p>
+                <p></p>
+              </div>
+              <div class="input" style="display: none;">
+                <form id="authServiceForm">
+                  <p class="infoText">Project Information </p>
+                  <input type="text" id="projectIdService" placeholder="project_id">
+                  <input type="text" id="projectRegionService" placeholder="location_id">
+                  <p class="infoText">Authentication Information </p>
+                  <input type="text" id="privateKey" placeholder="private_key">
+                  <input type="text" id="clientEmail" placeholder="client_email">
+                  <div class="buttonsInput">
+                    <button class="authServiceButtonSubmit" id="submitButton">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </body>
+  <script src="./javascript/authenticationPage.js"></script>
+</html>
