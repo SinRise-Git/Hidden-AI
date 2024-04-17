@@ -6,7 +6,6 @@ chrome.storage.local.get(['hasValidCredentials'], function(result) {
     }
 });
 
-
 if(!localStorage.getItem("selectedOption")) {
 	localStorage.setItem("selectedOption", "authTokenDiv");
 	document.getElementById("authTokenDiv").style.display = "block";
@@ -44,104 +43,69 @@ document.addEventListener('input', function(e) {
 	}
 })
 
+let hasSubmitted = false;
+let authType = null;
 document.addEventListener("submit", async function(e) {
 	e.preventDefault();
-	const currentForm = document.getElementById(e.target.id)
-	let checkType = "";
-	let requestBody = {
-		requestVersion: "checkCredentials"
-	};
-	if(e.target.id === "authTokenForm") {
-		checkType = "authToken";
-		requestBody.projectId = currentForm.projectIdToken.value;
-		requestBody.projectRegion = currentForm.projectRegionToken.value;
-		requestBody.authToken = currentForm.authToken.value;
-	} else if(e.target.id === "authServiceForm") {
-		checkType = "authService";
-		requestBody.projectId = currentForm.projectIdToken.value;
-		requestBody.projectRegion = currentForm.projectRegionToken.value;
-		requestBody.clientEmail = currentForm.clientEmail.value;
-		requestBody.privateKey = currentForm.privateKey.value;
-	} else if(e.target.id === "authGeminiForm") {
-		checkType = "authGemini";
-		requestBody.projectId = currentForm.projectIdToken.value;
-		requestBody.projectRegion = currentForm.projectRegionToken.value;
-		requestBody.studioKey = currentForm.studioKey.value;
-	}
-	const requestOption = {
-		method : "POST",
-		headers: {"Content-Type": "application/json"},
-		body: JSON.stringify(requestBody),
-	}
-	console.log(requestBody)
-	console.log(checkType);
-	const response = await fetch(`http://localhost:3000/checkCredentials${checkType}`, requestOption)
-	const data = await response.json()
-})
+	const selectedForm = e.target.id;
+	if(!hasSubmitted){
+		hasSubmitted = true;
+		authType = e.target.id;
+		const currentForm = document.getElementById(authType)
+		let requestBody = {};
+		if(authType === "authTokenForm") {
+			requestBody.credentialsType = "authToken";
+			requestBody.projectId = currentForm.projectIdToken.value;
+			requestBody.projectRegion = currentForm.projectRegionToken.value;
+			requestBody.authToken = currentForm.authToken.value;
+		} else if(authType === "authServiceForm") {
+			requestBody.credentialsType = "authService";
+			requestBody.projectId = currentForm.projectIdService.value;
+			requestBody.projectRegion = currentForm.projectRegionService.value;
+			requestBody.clientEmail = currentForm.clientEmail.value;
+			requestBody.privateKey = currentForm.privateKey.value;
+		} else if(authType === "authGeminiForm") {
+			requestBody.credentialsType = "authGemini";
+			requestBody.projectId = currentForm.projectIdGemini.value;
+			requestBody.projectRegion = currentForm.projectRegionGemini.value;
+			requestBody.studioKey = currentForm.studioKey.value;
+		}
 	
-
-
-async function validateAuth(projectIdToken, projectRegionToken, authToken, authType) {
-	if (wasClicked === false) {
-		wasClicked = true;
-		dotCount = 0;
-		let responseText = document.getElementById("responseText")
+		const requestOption = {
+			method : "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify(requestBody),
+		}
+	
+		let dotCount = 0;
+		const responseText = document.getElementById(`${authType}Response`)
+		responseText.textContent = "";
 		responseText.style.color = "green";
-		responseText.textContent = "Validating your credentials";
 		let loadingCredentials = setInterval(() => {
-			dotCount += 1;
-			if (dotCount > 3) {dotCount = 0;}
+			dotCount = (dotCount + 1) % 4;
 			let dots = '.'.repeat(dotCount);
 			responseText.textContent = "Validating your credentials" + dots;
 		}, 250)
-		const apiUrl = `https://${projectRegionToken}-aiplatform.googleapis.com/v1/projects/${projectIdToken}/locations/${projectRegionToken}/publishers/google/models/chat-bison:predict`;
-		const requestData = {
-			instances: [{
-				messages: [{
-					author: "user",
-					content: "Test message to validate credentials!"
-				}, ],
-			}, ],
-			parameters: {
-				temperature: 0.3,
-				maxOutputTokens: 200,
-				topP: 0.8,
-				topK: 40,
-			},
-		};
-
-		const headers = {
-			Authorization: `Bearer ${authToken}`,
-			'Content-Type': 'application/json',
-		};
-
-		try {
-			const response = await fetch(apiUrl, {
-				method: 'POST',
-				headers: headers,
-				body: JSON.stringify(requestData),
-			});
-
-			if (response.status === 200) {
-				chrome.storage.local.set({
-					hasValidCredentials: 'true',
-					credentialsType: authType,
-					userCredentials: {
-						projectRegionToken: projectRegionToken,
-					    projectIdToken: projectIdToken,
-					    authToken: authToken
-					}
-				})
-				window.location.href = 'main.html';
-			} else {
-				clearInterval(loadingCredentials);
-				responseText.textContent = "Your credentials are not valid!";
-				responseText.style.color = "red";
-				wasClicked = false;
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
-};
-
+	
+		const response = await fetch(`http://localhost:3000/checkCredentials`, requestOption)
+		const data = await response.json()
+		if(data.status === "valid credentials") {
+			window.location.href = "main.html";
+			chrome.storage.local.set({
+				hasValidCredentials: 'true',
+				userCredentials: requestBody
+			})
+			hasSubmitted = false;
+		} else {
+			clearInterval(loadingCredentials);
+			responseText.style.color = "red";
+			let response = data.status === "invalid credentials" ? "Your credentials are not valid!" : "Something went wrong! Please try again!"; 
+			responseText.textContent = response;
+			hasSubmitted = false;
+		} 
+	} else if(selectedForm !== authType) {
+		let responseText = document.getElementById(`${selectedForm}Response`)
+		responseText.style.color = "red";
+		responseText.textContent = "Wait, already validating credentials!";
+	}
+})
