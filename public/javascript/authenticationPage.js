@@ -98,7 +98,7 @@ document.addEventListener("submit", async function(e) {
 			hasSubmitted = false;
 		} else {
 			clearInterval(loadingCredentials);
-			responseText.style.color = "red"
+			responseText.style.color = "purple"
 			responseText.textContent = `Invalid credentials (${data.error})`;
 			hasSubmitted = false;
 		} 
