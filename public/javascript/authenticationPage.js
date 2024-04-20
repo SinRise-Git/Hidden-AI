@@ -99,8 +99,7 @@ document.addEventListener("submit", async function(e) {
 		} else {
 			clearInterval(loadingCredentials);
 			responseText.style.color = "red";
-			let response = data.status === "invalid credentials" ? "Your credentials are not valid!" : "Something went wrong! Please try again!"; 
-			responseText.textContent = response;
+			responseText.textContent = `Invalid credentials (${data.error})`;
 			hasSubmitted = false;
 		} 
 	} else if(selectedForm !== authType) {
