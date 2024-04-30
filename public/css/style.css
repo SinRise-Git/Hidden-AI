@@ -24,6 +24,35 @@ body {
     display: none;
 }
 
+#authTokenForm div div, #authServiceForm div div, #authGeminiForm div div {
+    position: relative;
+    &:focus-within label{
+        top: 9px;
+        font-size: 10px;
+        color: gray;
+    }
+    &:focus-within input{
+        border-bottom: 1px solid gray;
+    }
+    input:not(:placeholder-shown) + label{
+        top: 9px;
+        font-size: 10px;
+        color: gray;
+    }
+    input:not(:placeholder-shown) + input{
+        border-bottom: 1px solid gray;
+    }
+}
+
+#authTokenForm div div label, #authServiceForm div div label, #authGeminiForm div div label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5px;
+    transition: all .5s;
+}
+
+
 .selectAuth {
     display: flex;
     flex-direction: row;
@@ -34,6 +63,7 @@ body {
     background-color: var(--dark-gray-color);
     color: var(--white-color);
     padding: 5px 10px 5px 10px;
+    margin-bottom: 16px;
     border: 0px;
     border-radius: 5px;
     cursor: pointer;
@@ -42,16 +72,19 @@ body {
 
 .authCheck input{
     width: 200px;
-    padding: 6px 10px 6px 10px;
-    background-color: var(--dark-gray-color);
-    margin-top: 10px;
-    border: 0px;
-    border-radius: 5px;
-    color: white;;
+    padding: 6px 5px 6px 5px;
+    background-color: transparent;
+    margin: 10px 0px 10px 0px;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    transition: all .5s;
 }
 
 .authCheck button{
-    margin: 10px 0px 5px 0px;
+    margin: 0px 0px 5px 0px;
     background-color: var(--dark-gray-color);
     color: var(--white-color);
     padding: 4px 10px 4px 10px;
@@ -75,10 +108,10 @@ body {
 }
 
 .infoText{
-    font-size: 13px;
-    font-weight: 900;
+    font-size: 15px;
+    font-weight: 700;
     color: var(--white-color);
-    margin: 10px 0px 0px 0px;
+    margin: 0px;
 }
 
 .response{
